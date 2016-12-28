@@ -1,0 +1,7 @@
+<div class="col-sm-3 col-md-2 sidebar">
+    <ul class="nav nav-sidebar">
+        <li ng-repeat="nav in navGroups" ui-sref-active="active">
+            <a href="#" ui-sref=".{{nav.urlName}}">{{nav.navName}}</a>
+        </li>
+    </ul>
+</div>
