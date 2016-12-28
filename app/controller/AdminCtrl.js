@@ -1,5 +1,7 @@
 var BookTypeDao = require('../dao/BookTypeDao.js'),
     BookDao = require('../dao/BookDao.js'),
+    InStockDao = require('../dao/InStockDao.js'),
+    SoldDao = require('../dao/SoldDao.js'),
     md5 = require('md5');
 
 
@@ -64,10 +66,10 @@ exports.addBook = function(req, res) {
     };
     // 调用DAO层接口
     BookDao.insert(obj, function() {
-        console.warn("添加书籍类别成功");
+        console.warn("添加书籍成功");
         // 返回给客户端200成功插入反馈
         res.status(200).json({
-            success: '添加书籍类别成功'
+            success: '添加书籍成功'
         });
     });
 };
@@ -85,9 +87,9 @@ exports.updateBook = function(req, res) {
     console.log(obj);
     BookDao.modify(obj, function() {
         res.status(200).json({
-            success: '修改书籍类别成功'
+            success: '修改书籍成功'
         });
-        console.log("修改书籍类别成功");
+        console.log("修改书籍成功");
     });
 };
 
@@ -97,8 +99,58 @@ exports.deleteBook = function(req, res) {
     var id = req.params.id;
     BookDao.deleteOne(id, function() {
         res.status(200).json({
-            success: '删除书籍类别成功'
+            success: '删除书籍成功'
         });;
         console.log("删除书籍成功");
+    });
+};
+
+// 添加入库记录
+exports.addInstock = function(req, res) {
+    // 封装obj
+    var obj = {
+        bookId:     req.body.bookId,
+        adminId:    req.body.adminId,
+        InstockNum: req.body.instockNum,
+    };
+    // 调用DAO层接口
+    InStockDao.insert(obj, function() {
+        console.warn("添加入库记录成功");
+        // 返回给客户端200成功插入反馈
+        res.status(200).json({
+            success: '添加入库记录成功'
+        });
+    });
+};
+
+// 查看入库记录
+exports.seeAllInStock = function(req, res) {
+    InStockDao.selectAll(function(rows) {
+        res.status(200).json(rows);
+    });
+};
+
+// 添加出售记录
+exports.addSold = function(req, res) {
+    // 封装obj
+    var obj = {
+        bookId:     req.body.bookId,
+        adminId:    req.body.adminId,
+        SoldNum:    req.body.soldNum,
+    };
+    // 调用DAO层接口
+    SoldDao.insert(obj, function() {
+        console.warn("添加入库记录成功");
+        // 返回给客户端200成功插入反馈
+        res.status(200).json({
+            success: '添加入库记录成功'
+        });
+    });
+};
+
+// 查看出售记录
+exports.seeAllSold = function(req, res) {
+    SoldDao.selectAll(function(rows) {
+        res.status(200).json(rows);
     });
 };
