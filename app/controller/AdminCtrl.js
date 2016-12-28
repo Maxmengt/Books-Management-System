@@ -140,10 +140,10 @@ exports.addSold = function(req, res) {
     };
     // 调用DAO层接口
     SoldDao.insert(obj, function() {
-        console.warn("添加入库记录成功");
+        console.warn("添加出售记录成功");
         // 返回给客户端200成功插入反馈
         res.status(200).json({
-            success: '添加入库记录成功'
+            success: '添加出售记录成功'
         });
     });
 };

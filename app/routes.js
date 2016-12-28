@@ -113,4 +113,14 @@ module.exports = function(app) {
     app.delete('/seeAllBook/:id', function(req, res) {
         AdminCtrl.deleteBook(req, res);
     });
+
+    // 获取全部入库记录
+    app.get('/seeAllInStock', function(req, res) {
+        AdminCtrl.seeAllInStock(req, res);
+    });
+
+    // 获取全部出售记录
+    app.get('/seeAllSold', function(req, res) {
+        AdminCtrl.seeAllSold(req, res);
+    });
 }

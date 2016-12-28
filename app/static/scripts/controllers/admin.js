@@ -143,13 +143,15 @@ adminApp.controller('seeAllType', ['$scope', '$http',
                 field: 'Type_id',
                 displayName: 'id',
                 width: '10%',
-                pinnable: true,
+                pinnable: false,
                 sortable: true,
                 enableCellEdit: false
             }, {
                 field: 'Type_name',
                 displayName: '类别名',
                 enableCellEdit: true,
+                pinnable: false,
+                sortable: false,
                 width: '30%'
             }, {
                 field: 'Type_id',
@@ -328,7 +330,7 @@ adminApp.controller('seeAllBook', ['$scope', '$http',
                 field: 'Book_id',
                 displayName: 'id',
                 width: '5%',
-                pinnable: true,
+                pinnable: false,
                 sortable: true,
                 enableCellEdit: false
             }, {
@@ -523,28 +525,37 @@ adminApp.controller('seeAllInStock', ['$scope', '$http',
                 field: 'Instock_id',
                 displayName: 'id',
                 width: '10%',
-                pinnable: true,
+                pinnable: false,
                 sortable: true,
                 enableCellEdit: false
             }, {
                 field: 'Book_name',
                 displayName: '书名',
                 enableCellEdit: false,
-                width: '40%'
+                pinnable: false,
+                sortable: false,
+                width: '35%'
             }, {
                 field: 'Admin_name',
                 displayName: '管理员',
                 enableCellEdit: false,
-                width: '10%'
+                pinnable: false,
+                sortable: false,
+                width: '15%'
             }, {
                 field: 'Instock_num',
                 displayName: '数量',
                 enableCellEdit: false,
+                pinnable: false,
+                sortable: false,
                 width: '10%'
             }, {
                 field: 'Instock_date',
                 displayName: '入库日期',
+                cellFilter: 'date:\'yyyy-MM-dd\'',
                 enableCellEdit: false,
+                pinnable: false,
+                sortable: true,
                 width: '30%'
             }],
             enablePaging: true,
@@ -632,28 +643,37 @@ adminApp.controller('seeAllSold', ['$scope', '$http',
                 field: 'Sold_id',
                 displayName: 'id',
                 width: '10%',
-                pinnable: true,
+                pinnable: false,
                 sortable: true,
                 enableCellEdit: false
             }, {
                 field: 'Book_name',
                 displayName: '书名',
                 enableCellEdit: false,
-                width: '40%'
+                pinnable: false,
+                sortable: false,
+                width: '35%'
             }, {
                 field: 'Admin_name',
                 displayName: '管理员',
                 enableCellEdit: false,
-                width: '10%'
+                pinnable: false,
+                sortable: false,
+                width: '15%'
             }, {
                 field: 'Sold_num',
                 displayName: '数量',
                 enableCellEdit: false,
+                pinnable: false,
+                sortable: false,
                 width: '10%'
             }, {
                 field: 'Sold_date',
                 displayName: '出售日期',
+                cellFilter: 'date:\'yyyy-MM-dd\'',
                 enableCellEdit: false,
+                pinnable: false,
+                sortable: true,
                 width: '30%'
             }],
             enablePaging: true,
