@@ -4,7 +4,7 @@ var query = connection.query;
 
 /*
              输入           输出
-insert       Sold        信息
+insert       Sold           信息
 selectAll    无             [Sold]     
  */
 
