@@ -53,6 +53,18 @@ adminApp.config(function($stateProvider, $urlRouterProvider) { // 设置路由
             templateUrl: '/tpl/seeAllBook.html',
             controller: 'seeAllBook'
         })
+        // 查看入库记录
+        .state('admin.seeAllInStock', {
+            url: '/seeAllInStock',
+            templateUrl: '/tpl/seeAllInStock.html',
+            controller: 'seeAllInStock'
+        })
+        // 查看出售记录
+        .state('admin.seeAllSold', {
+            url: '/seeAllSold',
+            templateUrl: '/tpl/seeAllSold.html',
+            controller: 'seeAllSold'
+        })
         ;
 
     $urlRouterProvider.otherwise('/admin/addType'); // 设置其他路径跳转到index
