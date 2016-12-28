@@ -540,7 +540,7 @@ adminApp.controller('seeAllInStock', ['$scope', '$http',
                 displayName: '管理员',
                 enableCellEdit: false,
                 pinnable: false,
-                sortable: false,
+                sortable: true,
                 width: '15%'
             }, {
                 field: 'Instock_num',
@@ -658,7 +658,7 @@ adminApp.controller('seeAllSold', ['$scope', '$http',
                 displayName: '管理员',
                 enableCellEdit: false,
                 pinnable: false,
-                sortable: false,
+                sortable: true,
                 width: '15%'
             }, {
                 field: 'Sold_num',
