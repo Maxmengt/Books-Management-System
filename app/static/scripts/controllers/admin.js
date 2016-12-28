@@ -25,6 +25,12 @@ adminApp.controller('navCtrl', ['$scope', '$http', '$location',
         }, {
             navName: '管理全部书籍',
             urlName: 'seeAllBook'
+        }, {
+            navName: '查看入库记录',
+            urlName: 'seeAllInStock'
+        }, {
+            navName: '查看出售记录',
+            urlName: 'seeAllSold'
         }];
         $scope.navGroups = navGroups;
     }
@@ -437,6 +443,224 @@ adminApp.controller('seeAllBook', ['$scope', '$http',
                     alert(data.success);
                 }
             });
+        };
+    }
+]);
+
+// 查看入库记录
+adminApp.controller('seeAllInStock', ['$scope', '$http',
+    function($scope, $http) {
+        $scope.filterOptions = {
+            filterText: "",
+            useExternalFilter: true
+        };
+        $scope.totalServerItems = 0;
+        $scope.pagingOptions = {
+            pageSizes: [10],
+            pageSize: 10,
+            currentPage: 1
+        };
+
+        // 设置页面数据
+        $scope.setPagingData = function(data, page, pageSize) {
+            var pagedData = data.slice((page - 1) * pageSize, page * pageSize);
+            $scope.instocks = pagedData;
+            $scope.totalServerItems = data.length;
+            if (!$scope.$$phase) {
+                $scope.$apply();
+            }
+        };
+
+        // 异步获取页面数据
+        $scope.getPagedDataAsync = function(pageSize, page, searchText) {
+            setTimeout(function() {
+                var data;
+                if (searchText) {
+                    var ft = searchText.toLowerCase();
+                    $http.get('/seeAllInStock')
+                        .success(function(largeLoad) {
+                            data = largeLoad.filter(function(item) {
+                                return JSON.stringify(item).toLowerCase().indexOf(ft) != -1;
+                            });
+                            $scope.setPagingData(data, page, pageSize);
+                        });
+                } else {
+                    $http({
+                        method: 'GET',
+                        url: '/seeAllInStock'
+                    }).then(function successCallback(response) {
+                        if (response.status === 200) {
+                            $scope.setPagingData(response.data, page, pageSize);
+                        }
+                    }, function errorCallback(response) {
+                        alert("获取书籍入库记录数据失败");
+                    });
+                }
+            }, 100);
+        };
+
+        $scope.getPagedDataAsync($scope.pagingOptions.pageSize, $scope.pagingOptions.currentPage);
+
+        // 监听页面设置
+        $scope.$watch('pagingOptions', function(newVal, oldVal) {
+            if (newVal !== oldVal && newVal.currentPage !== oldVal.currentPage) {
+                $scope.getPagedDataAsync($scope.pagingOptions.pageSize, $scope.pagingOptions.currentPage, $scope.filterOptions.filterText);
+            }
+        }, true);
+
+        $scope.gridOptions = {
+            data: 'instocks',
+            rowTemplate: '<div style="height: 100%"><div ng-style="{ \'cursor\': row.cursor }" ng-repeat="col in renderedColumns" ng-class="col.colIndex()" class="ngCell ">' +
+                '<div class="ngVerticalBar" ng-style="{height: rowHeight}" ng-class="{ ngVerticalBarVisible: !$last }"> </div>' +
+                '<div ng-cell></div>' +
+                '</div></div>',
+            multiSelect: false,
+            enableCellSelection: false,
+            enableRowSelection: true,
+            enableCellEdit: false,
+            enablePinning: true,
+            columnDefs: [{
+                field: 'Instock_id',
+                displayName: 'id',
+                width: '10%',
+                pinnable: true,
+                sortable: true,
+                enableCellEdit: false
+            }, {
+                field: 'Book_name',
+                displayName: '书名',
+                enableCellEdit: false,
+                width: '40%'
+            }, {
+                field: 'Admin_name',
+                displayName: '管理员',
+                enableCellEdit: false,
+                width: '10%'
+            }, {
+                field: 'Instock_num',
+                displayName: '数量',
+                enableCellEdit: false,
+                width: '10%'
+            }, {
+                field: 'Instock_date',
+                displayName: '入库日期',
+                enableCellEdit: false,
+                width: '30%'
+            }],
+            enablePaging: true,
+            showFooter: true,
+            showGroupPanel: false,
+            totalServerItems: 'totalServerItems',
+            pagingOptions: $scope.pagingOptions,
+        };
+    }
+]);
+
+// 查看出售记录
+adminApp.controller('seeAllSold', ['$scope', '$http',
+    function($scope, $http) {
+        $scope.filterOptions = {
+            filterText: "",
+            useExternalFilter: true
+        };
+        $scope.totalServerItems = 0;
+        $scope.pagingOptions = {
+            pageSizes: [10],
+            pageSize: 10,
+            currentPage: 1
+        };
+
+        // 设置页面数据
+        $scope.setPagingData = function(data, page, pageSize) {
+            var pagedData = data.slice((page - 1) * pageSize, page * pageSize);
+            $scope.solds = pagedData;
+            $scope.totalServerItems = data.length;
+            if (!$scope.$$phase) {
+                $scope.$apply();
+            }
+        };
+
+        // 异步获取页面数据
+        $scope.getPagedDataAsync = function(pageSize, page, searchText) {
+            setTimeout(function() {
+                var data;
+                if (searchText) {
+                    var ft = searchText.toLowerCase();
+                    $http.get('/seeAllSold')
+                        .success(function(largeLoad) {
+                            data = largeLoad.filter(function(item) {
+                                return JSON.stringify(item).toLowerCase().indexOf(ft) != -1;
+                            });
+                            $scope.setPagingData(data, page, pageSize);
+                        });
+                } else {
+                    $http({
+                        method: 'GET',
+                        url: '/seeAllSold'
+                    }).then(function successCallback(response) {
+                        if (response.status === 200) {
+                            $scope.setPagingData(response.data, page, pageSize);
+                        }
+                    }, function errorCallback(response) {
+                        alert("获取书籍出售记录数据失败");
+                    });
+                }
+            }, 100);
+        };
+
+        $scope.getPagedDataAsync($scope.pagingOptions.pageSize, $scope.pagingOptions.currentPage);
+
+        // 监听页面设置
+        $scope.$watch('pagingOptions', function(newVal, oldVal) {
+            if (newVal !== oldVal && newVal.currentPage !== oldVal.currentPage) {
+                $scope.getPagedDataAsync($scope.pagingOptions.pageSize, $scope.pagingOptions.currentPage, $scope.filterOptions.filterText);
+            }
+        }, true);
+
+        $scope.gridOptions = {
+            data: 'solds',
+            rowTemplate: '<div style="height: 100%"><div ng-style="{ \'cursor\': row.cursor }" ng-repeat="col in renderedColumns" ng-class="col.colIndex()" class="ngCell ">' +
+                '<div class="ngVerticalBar" ng-style="{height: rowHeight}" ng-class="{ ngVerticalBarVisible: !$last }"> </div>' +
+                '<div ng-cell></div>' +
+                '</div></div>',
+            multiSelect: false,
+            enableCellSelection: false,
+            enableRowSelection: true,
+            enableCellEdit: false,
+            enablePinning: true,
+            columnDefs: [{
+                field: 'Sold_id',
+                displayName: 'id',
+                width: '10%',
+                pinnable: true,
+                sortable: true,
+                enableCellEdit: false
+            }, {
+                field: 'Book_name',
+                displayName: '书名',
+                enableCellEdit: false,
+                width: '40%'
+            }, {
+                field: 'Admin_name',
+                displayName: '管理员',
+                enableCellEdit: false,
+                width: '10%'
+            }, {
+                field: 'Sold_num',
+                displayName: '数量',
+                enableCellEdit: false,
+                width: '10%'
+            }, {
+                field: 'Sold_date',
+                displayName: '出售日期',
+                enableCellEdit: false,
+                width: '30%'
+            }],
+            enablePaging: true,
+            showFooter: true,
+            showGroupPanel: false,
+            totalServerItems: 'totalServerItems',
+            pagingOptions: $scope.pagingOptions,
         };
     }
 ]);
